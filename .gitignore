@@ -1,0 +1,13 @@
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+__pycache__/
+*.pyc
+.env
+venv/
+env/
+results/
+*.log
+*.html
+.DS_Store
