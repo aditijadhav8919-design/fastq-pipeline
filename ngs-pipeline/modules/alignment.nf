@@ -9,7 +9,8 @@ process ALIGNMENT {
     tuple val(sample_id), path("${sample_id}.sam")
     
     script:
+    def ref = params.ref
     """
-    bwa mem -t 4 ${params.ref} ${reads[0]} ${reads[1]} > ${sample_id}.sam
+    bwa mem -t 4 ${ref} ${reads[0]} ${reads[1]} > ${sample_id}.sam
     """
 }

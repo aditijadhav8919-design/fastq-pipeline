@@ -1,22 +1,9 @@
-#!/usr/bin/env nextflow
-nextflow.enable.dsl=2
+#!/bin/bash
 
-// Parameters
-params.reads = "data/real_test_R{1,2}.fastq.gz"
-params.ref = "${baseDir}/reference_genome/hg38.fa"
-params.outdir = "${baseDir}/results"
+echo "Creating all 8 modules..."
 
-log.info """
-==========================================
- VARIANT CALLING PIPELINE
-==========================================
- reads    : ${params.reads}
- reference: ${params.ref}
- outdir   : ${params.outdir}
-==========================================
-"""
-
-// Process definitions (inline)
+# Module 1: FastQC Raw
+cat > modules/fastqc_raw.nf << 'MODULE1'
 process FASTQC_RAW {
     tag "QC on $sample_id"
     publishDir "${params.outdir}/01_fastqc_raw", mode: 'copy'
@@ -32,7 +19,10 @@ process FASTQC_RAW {
     fastqc -q ${reads}
     """
 }
+MODULE1
 
+# Module 2: Trimming
+cat > modules/trimming.nf << 'MODULE2'
 process TRIM_ADAPTERS {
     tag "Trimming $sample_id"
     publishDir "${params.outdir}/02_trimmed", mode: 'copy'
@@ -52,9 +42,12 @@ process TRIM_ADAPTERS {
         -m 50 -q 20
     """
 }
+MODULE2
 
+# Module 3: FastQC Trimmed
+cat > modules/fastqc_trimmed.nf << 'MODULE3'
 process FASTQC_TRIMMED {
-    tag "QC trimmed $sample_id"
+    tag "QC on trimmed $sample_id"
     publishDir "${params.outdir}/03_fastqc_trimmed", mode: 'copy'
     
     input:
@@ -68,7 +61,10 @@ process FASTQC_TRIMMED {
     fastqc -q ${reads}
     """
 }
+MODULE3
 
+# Module 4: Alignment
+cat > modules/alignment.nf << 'MODULE4'
 process ALIGNMENT {
     tag "Aligning $sample_id"
     publishDir "${params.outdir}/04_aligned", mode: 'copy'
@@ -84,7 +80,10 @@ process ALIGNMENT {
     bwa mem -t 4 ${params.ref} ${reads[0]} ${reads[1]} > ${sample_id}.sam
     """
 }
+MODULE4
 
+# Module 5: SAM to BAM
+cat > modules/sam_to_bam.nf << 'MODULE5'
 process SAM_TO_BAM {
     tag "Converting $sample_id"
     publishDir "${params.outdir}/05_bam", mode: 'copy'
@@ -100,7 +99,10 @@ process SAM_TO_BAM {
     samtools view -Sb ${sam} > ${sample_id}.bam
     """
 }
+MODULE5
 
+# Module 6: Sort BAM
+cat > modules/sort_bam.nf << 'MODULE6'
 process SORT_BAM {
     tag "Sorting $sample_id"
     publishDir "${params.outdir}/06_sorted", mode: 'copy'
@@ -117,7 +119,10 @@ process SORT_BAM {
     samtools index ${sample_id}_sorted.bam
     """
 }
+MODULE6
 
+# Module 7: Variant Calling
+cat > modules/variant_calling.nf << 'MODULE7'
 process VARIANT_CALLING {
     tag "Calling variants $sample_id"
     publishDir "${params.outdir}/07_variants", mode: 'copy'
@@ -134,7 +139,10 @@ process VARIANT_CALLING {
     bcftools view ${sample_id}.bcf > ${sample_id}_raw.vcf
     """
 }
+MODULE7
 
+# Module 8: Filtering
+cat > modules/filtering.nf << 'MODULE8'
 process FILTER_VARIANTS {
     tag "Filtering $sample_id"
     publishDir "${params.outdir}/08_filtered", mode: 'copy'
@@ -150,11 +158,28 @@ process FILTER_VARIANTS {
     awk '\$6 >= 20 || /^#/' ${vcf} > ${sample_id}_filtered.vcf
     """
 }
+MODULE8
 
-// Workflow
+# Create Main Workflow
+cat > workflow.nf << 'WORKFLOW'
+#!/usr/bin/env nextflow
+nextflow.enable.dsl=2
+
+include { FASTQC_RAW } from './modules/fastqc_raw.nf'
+include { TRIM_ADAPTERS } from './modules/trimming.nf'
+include { FASTQC_TRIMMED } from './modules/fastqc_trimmed.nf'
+include { ALIGNMENT } from './modules/alignment.nf'
+include { SAM_TO_BAM } from './modules/sam_to_bam.nf'
+include { SORT_BAM } from './modules/sort_bam.nf'
+include { VARIANT_CALLING } from './modules/variant_calling.nf'
+include { FILTER_VARIANTS } from './modules/filtering.nf'
+
+params.reads = "data/*_R{1,2}.fastq.gz"
+params.ref = "${baseDir}/reference_genome/hg38.fa"
+params.outdir = "results"
+
 workflow {
     reads_ch = Channel.fromFilePairs(params.reads)
-    
     FASTQC_RAW(reads_ch)
     trimmed_ch = TRIM_ADAPTERS(reads_ch)
     FASTQC_TRIMMED(trimmed_ch)
@@ -166,10 +191,22 @@ workflow {
 }
 
 workflow.onComplete {
-    log.info """
-    ==========================================
-    Pipeline ${workflow.success ? 'COMPLETED' : 'FAILED'}
-    Duration: ${workflow.duration}
-    ==========================================
-    """
+    log.info "Pipeline completed successfully!"
 }
+WORKFLOW
+
+echo "✅ All modules created!"
+echo "📋 Module list:"
+ls -lh modules/
+
+echo ""
+echo "🔄 Pushing to GitHub..."
+
+# Git commands
+git add modules/ workflow.nf
+git commit -m "Automated: Added complete 8-step variant calling pipeline"
+git push origin main
+
+echo "✅ Successfully pushed to GitHub!"
+echo ""
+echo "🚀 Ready to run: nextflow run workflow.nf"
