@@ -1,7 +1,0 @@
-.nextflow*
-work/
-.vscode/
-*.pyc
-__pycache__/
-results/
-*.log
