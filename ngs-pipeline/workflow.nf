@@ -1,110 +1,46 @@
 #!/usr/bin/env nextflow
+nextflow.enable.dsl=2
 
-// Parameters
 params.reads = "data/*_R{1,2}.fastq.gz"
-params.ref = "reference_genome/hg38.fa"
+params.ref = "${baseDir}/reference_genome/hg38.fa"
 params.outdir = "results"
 
-// Input channels
-Channel
-    .fromFilePairs(params.reads)
-    .set { read_pairs }
-
-// Step 1: FastQC Raw
 process fastqc_raw {
     publishDir "${params.outdir}/fastqc_raw"
-    
     input:
-    set sample, file(reads) from read_pairs
-    
+    tuple val(sample), path(reads)
     output:
-    file "*_fastqc.{zip,html}"
-    
+    path "*_fastqc.{zip,html}"
     script:
-    """
-    fastqc ${reads}
-    """
+    "fastqc ${reads}"
 }
 
-// Step 2: Trim Adapters
-process trim {
-    publishDir "${params.outdir}/trimmed"
-    
-    input:
-    set sample, file(reads) from read_pairs
-    
-    output:
-    set sample, file("*_trimmed.fastq.gz") into trimmed_reads
-    
-    script:
-    """
-    cutadapt -a AGATCGGAAGAGC -A AGATCGGAAGAGC \
-        -o ${sample}_R1_trimmed.fastq.gz \
-        -p ${sample}_R2_trimmed.fastq.gz \
-        ${reads[0]} ${reads[1]} \
-        -m 50 -q 20
-    """
-}
-
-// Step 3: FastQC Trimmed
-process fastqc_trimmed {
-    publishDir "${params.outdir}/fastqc_trimmed"
-    
-    input:
-    set sample, file(reads) from trimmed_reads
-    
-    output:
-    file "*_fastqc.{zip,html}"
-    
-    script:
-    """
-    fastqc ${reads}
-    """
-}
-
-// Step 4: Align
 process align {
     publishDir "${params.outdir}/aligned"
-    
     input:
-    set sample, file(reads) from trimmed_reads
-    file ref from file(params.ref)
-    
+    tuple val(sample), path(reads)
     output:
-    set sample, file("${sample}.sam") into sam_files
-    
+    tuple val(sample), path("${sample}.sam")
     script:
-    """
-    bwa mem -t 4 ${ref} ${reads[0]} ${reads[1]} > ${sample}.sam
-    """
+    "bwa mem -t 4 ${params.ref} ${reads[0]} ${reads[1]} > ${sample}.sam"
 }
 
-// Step 5: SAM to BAM
 process sam_to_bam {
     publishDir "${params.outdir}/bam"
-    
     input:
-    set sample, file(sam) from sam_files
-    
+    tuple val(sample), path(sam)
     output:
-    set sample, file("${sample}.bam") into bam_files
-    
+    tuple val(sample), path("${sample}.bam")
     script:
-    """
-    samtools view -Sb ${sam} > ${sample}.bam
-    """
+    "samtools view -Sb ${sam} > ${sample}.bam"
 }
 
-// Step 6: Sort BAM
 process sort_bam {
     publishDir "${params.outdir}/sorted"
-    
     input:
-    set sample, file(bam) from bam_files
-    
+    tuple val(sample), path(bam)
     output:
-    set sample, file("${sample}_sorted.bam") into sorted_bam
-    
+    tuple val(sample), path("${sample}_sorted.bam")
     script:
     """
     samtools sort ${bam} -o ${sample}_sorted.bam
@@ -112,36 +48,35 @@ process sort_bam {
     """
 }
 
-// Step 7: Call Variants
 process call_variants {
     publishDir "${params.outdir}/variants"
-    
     input:
-    set sample, file(bam) from sorted_bam
-    file ref from file(params.ref)
-    
+    tuple val(sample), path(bam)
     output:
-    set sample, file("${sample}.vcf.gz") into vcf_files
-    
+    tuple val(sample), path("${sample}_variants.txt")
     script:
     """
-    bcftools mpileup -f ${ref} ${bam} | \
-        bcftools call -mv -Oz -o ${sample}.vcf.gz
+    samtools mpileup -f ${params.ref} ${bam} > ${sample}_variants.txt
     """
 }
 
-// Step 8: Filter
-process filter {
+process filter_variants {
     publishDir "${params.outdir}/filtered"
-    
     input:
-    set sample, file(vcf) from vcf_files
-    
+    tuple val(sample), path(variants)
     output:
-    file "${sample}_filtered.vcf"
-    
+    path "${sample}_filtered.txt"
     script:
-    """
-    bcftools filter -s LowQual -e 'QUAL<20' ${vcf} > ${sample}_filtered.vcf
-    """
+    "awk '\$6 >= 20' ${variants} > ${sample}_filtered.txt"
+}
+
+workflow {
+    reads_ch = Channel.fromFilePairs(params.reads)
+    
+    fastqc_raw(reads_ch)
+    aligned = align(reads_ch)
+    bam = sam_to_bam(aligned)
+    sorted = sort_bam(bam)
+    variants = call_variants(sorted)
+    filter_variants(variants)
 }
