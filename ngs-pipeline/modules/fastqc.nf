@@ -1,4 +1,5 @@
-process FASTQC_RAW {
+process FASTQC {
+    tag "QC on $sample_id"
     publishDir "${params.outdir}/fastqc", mode: 'copy'
     
     input:
