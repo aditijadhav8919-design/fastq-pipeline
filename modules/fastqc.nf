@@ -1,3 +1,4 @@
+// FastQC Quality Control Module
 process FASTQC {
     publishDir "${params.outdir}/fastqc", mode: 'copy'
     

@@ -1,5 +1,6 @@
+// BWA Alignment Module
 process BWA_ALIGN {
-    publishDir "${params.outdir}/alignment", mode: 'copy'
+    publishDir "${params.outdir}/aligned", mode: 'copy'
     
     input:
     tuple val(sample_id), path(reads)

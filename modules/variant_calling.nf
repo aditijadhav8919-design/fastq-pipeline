@@ -1,3 +1,4 @@
+// Variant Calling Module
 process VARIANT_CALLING {
     publishDir "${params.outdir}/variants", mode: 'copy'
     

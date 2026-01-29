@@ -1,3 +1,4 @@
+// Variant Filtering Module
 process FILTER_VARIANTS {
     publishDir "${params.outdir}/filtered_variants", mode: 'copy'
     

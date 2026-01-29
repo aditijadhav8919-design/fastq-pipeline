@@ -1,3 +1,4 @@
+// Adapter Trimming Module
 process CUTADAPT {
     publishDir "${params.outdir}/trimmed", mode: 'copy'
     
@@ -13,7 +14,6 @@ process CUTADAPT {
         -o ${sample_id}_R1_trimmed.fastq.gz \
         -p ${sample_id}_R2_trimmed.fastq.gz \
         ${reads[0]} ${reads[1]} \
-        --minimum-length 50 \
-        --quality-cutoff 20
+        -m 50 -q 20
     """
 }

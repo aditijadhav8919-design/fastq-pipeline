@@ -1,3 +1,4 @@
+// Mark Duplicates Module
 process MARK_DUPLICATES {
     publishDir "${params.outdir}/dedup", mode: 'copy'
     
