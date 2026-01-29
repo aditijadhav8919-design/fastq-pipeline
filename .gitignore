@@ -1,7 +1,17 @@
+# Nextflow
 .nextflow/
 .nextflow.log*
 work/
+
+# Raw NGS data
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
 data/
+
+# Reference genome
 reference_genome/
-.vscode/
-ngs-pipeline/
+
+# Results
+results/
