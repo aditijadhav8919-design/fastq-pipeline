@@ -1,0 +1,12 @@
+Jan-14 06:51:13.394 [main] DEBUG nextflow.ui.console.ConsoleRunner - Unable to config console icons [1] - cause: Taskbar API is not supported on the current platform
+Jan-14 06:51:13.716 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /home/diti/pipeline/nextflow.config
+Jan-14 06:51:13.724 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/diti/pipeline/nextflow.config
+Jan-14 06:51:13.784 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/diti/.nextflow/secrets/store.json
+Jan-14 06:51:13.792 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@465b38e6] - activable => nextflow.secret.LocalSecretsProvider@465b38e6
+Jan-14 06:51:13.802 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Jan-14 06:54:14.636 [main] DEBUG nextflow.ui.console.ConsoleRunner - Unable to config console icons [1] - cause: Taskbar API is not supported on the current platform
+Jan-14 06:54:15.032 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /home/diti/pipeline/nextflow.config
+Jan-14 06:54:15.038 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /home/diti/pipeline/nextflow.config
+Jan-14 06:54:15.089 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /home/diti/.nextflow/secrets/store.json
+Jan-14 06:54:15.096 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@45c2e0a6] - activable => nextflow.secret.LocalSecretsProvider@45c2e0a6
+Jan-14 06:54:15.108 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
