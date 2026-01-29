@@ -26,6 +26,8 @@ Quality Trimming (Cutadapt)
          ↓
 Final Quality Reports
 
+
+
 *Input Data: Paired-end FASTQ files from sequencing platforms
 *Initial QC: FastQC analysis of raw reads to assess baseline quality
 *Quality Trimming: Cutadapt removes adapters and low-quality sequences
@@ -37,7 +39,9 @@ Final Quality Reports
 *Final Reporting: Comprehensive quality metrics and analysis summary
 
 #Pipeline Overview
-This bioinformatics pipeline provides an end-to-end solution for processing paired-end FASTQ sequencing data through quality control, alignment, and variant calling. The pipeline automates the complete workflow from raw sequencing reads to high-quality variant calls, ensuring reproducible and standardized analysis.
+This bioinformatics pipeline provides an end-to-end solution for processing paired-end FASTQ sequencing data through quality control,
+ alignment, and variant calling. The pipeline automates the complete workflow from raw sequencing reads to high-quality variant calls,
+ ensuring reproducible and standardized analysis.
 
 #Purpose
 The primary objectives of this pipeline are to:
