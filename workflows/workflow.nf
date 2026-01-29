@@ -1,15 +1,15 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-include { FASTQC as FASTQC_RAW } from '../modules/fastqc.nf'
-include { CUTADAPT } from '../modules/cutadapt.nf'
-include { FASTQC as FASTQC_TRIMMED } from '../modules/fastqc.nf'
-include { BWA_ALIGN } from '../modules/bwa_align.nf'
-include { SAM_TO_BAM } from '../modules/sam_to_bam.nf'
-include { SORT_BAM } from '../modules/sort_bam.nf'
-include { MARK_DUPLICATES } from '../modules/mark_duplicates.nf'
-include { VARIANT_CALLING } from '../modules/variant_calling.nf'
-include { FILTER_VARIANTS } from '../modules/filter_variants.nf'
+include { FASTQC as FASTQC_RAW } from '../modules/fastqc/main.nf'
+include { CUTADAPT } from '../modules/cutadapt/main.nf'
+include { FASTQC as FASTQC_TRIMMED } from '../modules/fastqc/main.nf'
+include { BWA_ALIGN } from '../modules/bwa_align/main.nf'
+include { SAM_TO_BAM } from '../modules/sam_to_bam/main.nf'
+include { SORT_BAM } from '../modules/sort_bam/main.nf'
+include { MARK_DUPLICATES } from '../modules/mark_duplicates/main.nf'
+include { VARIANT_CALLING } from '../modules/variant_calling/main.nf'
+include { FILTER_VARIANTS } from '../modules/filter_variants/main.nf'
 
 workflow QC_PIPELINE {
     
