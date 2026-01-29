@@ -1,12 +1,11 @@
 process SORT_BAM {
-    tag "Sorting $sample_id"
-    publishDir "${params.outdir}/06_sorted", mode: 'copy'
+    publishDir "${params.outdir}/sorted", mode: 'copy'
     
     input:
     tuple val(sample_id), path(bam)
     
     output:
-    tuple val(sample_id), path("${sample_id}_sorted.bam"), path("${sample_id}_sorted.bam.bai")
+    tuple val(sample_id), path("${sample_id}_sorted.bam"), path("${sample_id}_sorted.bam.bai"), emit: sorted
     
     script:
     """

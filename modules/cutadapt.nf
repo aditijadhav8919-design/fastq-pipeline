@@ -1,12 +1,11 @@
 process CUTADAPT {
-    tag "Trimming $sample_id"
-    publishDir "${params.outdir}/02_trimmed", mode: 'copy'
+    publishDir "${params.outdir}/trimmed", mode: 'copy'
     
     input:
     tuple val(sample_id), path(reads)
     
     output:
-    tuple val(sample_id), path("${sample_id}_R{1,2}_trimmed.fastq.gz")
+    tuple val(sample_id), path("${sample_id}_R{1,2}_trimmed.fastq.gz"), emit: trimmed
     
     script:
     """

@@ -1,15 +1,14 @@
 process SAM_TO_BAM {
-    tag "Converting $sample_id"
-    publishDir "${params.outdir}/05_bam", mode: 'copy'
+    publishDir "${params.outdir}/alignment", mode: 'copy'
     
     input:
-    tuple val(sample_id), path(sam)
+    tuple val(sample_id), path(sam_file)
     
     output:
-    tuple val(sample_id), path("${sample_id}.bam")
+    tuple val(sample_id), path("${sample_id}.bam"), emit: bam
     
     script:
     """
-    samtools view -Sb ${sam} > ${sample_id}.bam
+    samtools view -Sb ${sam_file} > ${sample_id}.bam
     """
 }
