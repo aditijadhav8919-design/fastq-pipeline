@@ -15,3 +15,6 @@ reference_genome/
 
 # Results
 results/
+.nextflow-console.log
+.nextflow.pid
+test_data/*.fastq.gz
