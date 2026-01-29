@@ -1,4 +1,4 @@
-process FASTQC_RAW {
+cess FASTQC_RAW {
     tag "QC on $sample_id"
     publishDir "${params.outdir}/01_fastqc_raw", mode: 'copy'
     
