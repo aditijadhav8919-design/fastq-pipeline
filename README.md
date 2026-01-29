@@ -26,71 +26,24 @@ Quality Trimming (Cutadapt)
          ↓
 Final Quality Reports
 
-## Step-by-Step Pipeline Workflow
+*Input Data: Paired-end FASTQ files from sequencing platforms
+*Initial QC: FastQC analysis of raw reads to assess baseline quality
+*Quality Trimming: Cutadapt removes adapters and low-quality sequences
+*Post-trim QC: FastQC validation of cleaned reads
+*Alignment: BWA maps trimmed reads to reference genome
+*Format Conversion: SAM files converted to compressed BAM format
+*File Optimization: BAM files sorted and indexed for efficient access
+*Variant Calling: Detection of SNPs, indels, and structural variants
+*Final Reporting: Comprehensive quality metrics and analysis summary
 
-### 1. FastQC on Raw Reads
-- Input: Raw FASTQ files
-- Tool used: **FastQC**
-- Purpose:
-  - Check read quality
-  - Detect adapter contamination
-  - Analyze GC content and sequence duplication
-- Output:
-  - HTML and ZIP FastQC reports
+#Pipeline Overview
+This bioinformatics pipeline provides an end-to-end solution for processing paired-end FASTQ sequencing data through quality control, alignment, and variant calling. The pipeline automates the complete workflow from raw sequencing reads to high-quality variant calls, ensuring reproducible and standardized analysis.
 
----
-
-### 2. Adapter Trimming
-- Input: Raw FASTQ files
-- Tool used: **Cutadapt**
-- Purpose:
-  - Remove adapter sequences
-  - Improve read quality for alignment
-- Output:
-  - Trimmed FASTQ files
-
----
-
-### 3. Sequence Alignment
-- Input:
-  - Trimmed FASTQ files
-  - Reference genome
-- Tool used: **BWA**
-- Purpose:
-  - Align sequencing reads to the reference genome
-- Output:
-  - SAM alignment files
-
----
-
-### 4. SAM to BAM Conversion
-- Input: SAM files
-- Tool used: **SAMtools**
-- Purpose:
-  - Convert large SAM files into compressed BAM format
-- Output:
-  - BAM files
-
----
-
-### 5. BAM Sorting and Indexing
-- Input: BAM files
-- Tool used: **SAMtools**
-- Purpose:
-  - Sort BAM files by genomic coordinates
-  - Create index files for fast access
-- Output:
-  - Sorted BAM files
-  - BAM index (.bai) files
-
----
-
-### 6. Variant Calling
-- Input:
-  - Sorted BAM files
-  - Reference genome
-- Tool used: **BCFtools**
-- Purpose:
-  - Identify SNPs and small insertions/deletions
-- Output:
-  - VCF (Variant Call Format) files
+#Purpose
+The primary objectives of this pipeline are to:
+Quality Assessment: Evaluate sequencing data quality at multiple stages using FastQC
+Data Preprocessing: Remove low-quality bases and adapter sequences using Cutadapt
+Read Alignment: Map cleaned reads to a reference genome using BWA
+File Processing: Convert, sort, and index alignment files for downstream analysis
+Variant Detection: Identify genetic variants from aligned sequencing data
+Quality Control: Generate comprehensive reports throughout the process
