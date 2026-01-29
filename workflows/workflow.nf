@@ -1,6 +1,8 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
+// Pipeline workflow for NGS data processing
+
 include { FASTQC as FASTQC_RAW } from '../modules/fastqc.nf'
 include { CUTADAPT } from '../modules/cutadapt.nf'
 include { FASTQC as FASTQC_TRIMMED } from '../modules/fastqc.nf'
