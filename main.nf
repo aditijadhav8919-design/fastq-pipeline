@@ -2,7 +2,7 @@
 nextflow.enable.dsl=2
 
 // Include workflow
-include { NGS_PIPELINE } from './workflows/workflow.nf'
+include { QC_PIPELINE } from './workflows/workflow.nf'
 
 // Parameters
 params.reads = "test_data/*_R{1,2}.fastq.gz"
@@ -22,5 +22,5 @@ log.info """
 // Main workflow
 workflow {
     reads_ch = Channel.fromFilePairs(params.reads, checkIfExists: false)
-    NGS_PIPELINE(reads_ch)
+    QC_PIPELINE(reads_ch)
 }

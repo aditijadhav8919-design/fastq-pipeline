@@ -1,6 +1,6 @@
-cess FASTQC_RAW {
+process FASTQC {
     tag "QC on $sample_id"
-    publishDir "${params.outdir}/01_fastqc_raw", mode: 'copy'
+    publishDir "${params.outdir}/fastqc", mode: 'copy'
     
     input:
     tuple val(sample_id), path(reads)

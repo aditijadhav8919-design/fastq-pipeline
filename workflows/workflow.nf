@@ -1,17 +1,16 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-// Include modules
-include { FASTQC_RAW } from '../modules/fastqc_raw.nf'
+// Include modules with relative paths
+include { FASTQC as FASTQC_RAW } from '../modules/fastqc.nf'
 include { CUTADAPT } from '../modules/cutadapt.nf'
-include { FASTQC_TRIMMED } from '../modules/fastqc_trimmed.nf'
+include { FASTQC as FASTQC_TRIMMED } from '../modules/fastqc.nf'
 include { BWA_ALIGN } from '../modules/bwa_align.nf'
 include { SAM_TO_BAM } from '../modules/sam_to_bam.nf'
 include { SORT_BAM } from '../modules/sort_bam.nf'
-include { INDEX_BAM } from '../modules/index_bam.nf'
 include { VARIANT_CALLING } from '../modules/variant_calling.nf'
 
-workflow NGS_PIPELINE {
+workflow QC_PIPELINE {
     
     take:
     reads_ch
@@ -34,9 +33,6 @@ workflow NGS_PIPELINE {
     
     // Sort BAM
     SORT_BAM(SAM_TO_BAM.out)
-    
-    // Index BAM
-    INDEX_BAM(SORT_BAM.out)
     
     // Variant calling
     VARIANT_CALLING(SORT_BAM.out)
