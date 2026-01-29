@@ -1,8 +1,6 @@
 # Nextflow
 .nextflow/
 .nextflow.log*
-.nextflow-console.log
-.nextflow.pid
 work/
 
 # Raw NGS data
@@ -17,3 +15,6 @@ reference_genome/
 
 # Results
 results/
+
+# Editor settings
+.vscode/
