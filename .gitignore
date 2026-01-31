@@ -3,13 +3,14 @@
 .nextflow.log
 .nextflow.log*
 work/
+# nextflow.pid
+.nextflow.pid
 
 # Raw NGS data
 *.fastq
 *.fastq.gz
 data/
-refrence_genome/
+reference_genome/
 
 # Results
 results/
-nextflow.pid
