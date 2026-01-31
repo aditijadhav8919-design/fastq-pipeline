@@ -1,16 +1,17 @@
-// BAM Sorting Module
+// BAM sorting Module
+
 process SORT_BAM {
-    publishDir "${params.outdir}/sorted", mode: "copy"
+    
+    publishDir "${params.outdir}/alignment", mode: 'copy'
     
     input:
-    tuple val(sample_id), path(bam)
+    tuple val(sample_id), path(bam_file)
     
     output:
-    tuple val(sample_id), path("${sample_id}.sorted.bam"), path("${sample_id}.sorted.bam.bai"), emit: sorted
+    tuple val(sample_id), path("${sample_id}_sorted.bam"), emit: sorted_bam
     
     script:
     """
-    samtools sort ${bam} -o ${sample_id}.sorted.bam
-    samtools index ${sample_id}.sorted.bam
+    ${params.samtools_bin} sort ${bam_file} -o ${sample_id}_sorted.bam
     """
 }

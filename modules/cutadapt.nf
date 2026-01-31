@@ -1,6 +1,8 @@
-// Adapter Trimming Module
+// Adapter trimming Module
+
 process CUTADAPT {
-    publishDir "${params.outdir}/trimmed", mode: "copy"
+    
+    publishDir "${params.outdir}/trimmed", mode: 'copy'
     
     input:
     tuple val(sample_id), path(reads)
@@ -10,10 +12,11 @@ process CUTADAPT {
     
     script:
     """
-    cutadapt -a AGATCGGAAGAGC -A AGATCGGAAGAGC \
+    ${params.cutadapt_bin} -a AGATCGGAAGAGC -A AGATCGGAAGAGC \
+        -q ${params.quality_cutoff} \
+        -m ${params.min_length} \
         -o ${sample_id}_R1_trimmed.fastq.gz \
         -p ${sample_id}_R2_trimmed.fastq.gz \
-        ${reads[0]} ${reads[1]} \
-        -m 50 -q 20
+        ${reads[0]} ${reads[1]}
     """
 }

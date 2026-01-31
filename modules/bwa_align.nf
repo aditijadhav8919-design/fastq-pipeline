@@ -1,6 +1,8 @@
 // BWA Alignment Module
+
 process BWA_ALIGN {
-    publishDir "${params.outdir}/alignment", mode: "copy"
+    
+    publishDir "${params.outdir}/alignment", mode: 'copy'
     
     input:
     tuple val(sample_id), path(reads)
@@ -10,6 +12,6 @@ process BWA_ALIGN {
     
     script:
     """
-    bwa mem -t 4 ${params.ref} ${reads[0]} ${reads[1]} > ${sample_id}.sam
+    ${params.bwa_bin} mem -t ${task.cpus} ${params.ref} ${reads[0]} ${reads[1]} > ${sample_id}.sam
     """
 }

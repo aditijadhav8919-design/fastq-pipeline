@@ -1,6 +1,8 @@
-// SAM to BAM Conversion Module
+// SAM to BAM conversion Module
+
 process SAM_TO_BAM {
-    publishDir "${params.outdir}/bam", mode: "copy"
+    
+    publishDir "${params.outdir}/alignment", mode: 'copy'
     
     input:
     tuple val(sample_id), path(sam_file)
@@ -10,6 +12,6 @@ process SAM_TO_BAM {
     
     script:
     """
-    samtools view -Sb ${sam_file} > ${sample_id}.bam
+    ${params.samtools_bin} view -bS ${sam_file} > ${sample_id}.bam
     """
 }
