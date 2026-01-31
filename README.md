@@ -12,6 +12,25 @@ cd fastq-pipeline
 
 ### 2. Create Conda Environment
 ```bash
+
+## Purpose and Objectives
+
+### Primary Purpose
+This pipeline automates the quality control and preprocessing of Next-Generation Sequencing (NGS) data to ensure reliable downstream genomic analysis. Raw sequencing data often contains technical artifacts, adapter sequences, and low-quality bases that must be removed before variant analysis.
+
+### Key Objectives
+1. **Quality Assessment**: Evaluate raw sequencing data quality using FastQC to identify issues before processing
+2. **Data Cleaning**: Remove adapter sequences and low-quality bases using Cutadapt to improve data accuracy
+3. **Read Alignment**: Map cleaned reads to a reference genome using BWA for variant detection
+4. **Variant Discovery**: Identify genetic variants (SNPs and indels) using BCFtools for biological interpretation
+5. **Automation**: Provide a reproducible, automated workflow that reduces manual errors and ensures consistency across samples
+
+### Expected Outcomes
+- High-quality, adapter-free sequencing reads
+- Accurate genome alignments
+- Reliable variant calls for downstream analysis
+- Comprehensive quality reports at each processing stage
+
 conda env create -f environment.yml
 ```
 
