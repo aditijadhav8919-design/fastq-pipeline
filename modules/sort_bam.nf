@@ -1,6 +1,6 @@
 // BAM Sorting Module
 process SORT_BAM {
-    publishDir "${params.outdir}/sorted", mode: 'copy'
+    publishDir "${params.outdir}/sorted", mode: "copy"
     
     input:
     tuple val(sample_id), path(bam)

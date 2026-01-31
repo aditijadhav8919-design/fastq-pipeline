@@ -1,6 +1,6 @@
 // Variant Calling Module
 process VARIANT_CALLING {
-    publishDir "${params.outdir}/variants", mode: 'copy'
+    publishDir "${params.outdir}/variants", mode: "copy"
     
     input:
     tuple val(sample_id), path(bam), path(bai)

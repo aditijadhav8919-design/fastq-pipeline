@@ -1,6 +1,6 @@
 // Adapter Trimming Module
 process CUTADAPT {
-    publishDir "${params.outdir}/trimmed", mode: 'copy'
+    publishDir "${params.outdir}/trimmed", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads)

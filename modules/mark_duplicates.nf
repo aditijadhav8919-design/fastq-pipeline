@@ -1,6 +1,6 @@
 // Mark Duplicates Module
 process MARK_DUPLICATES {
-    publishDir "${params.outdir}/dedup", mode: 'copy'
+    publishDir "${params.outdir}/deduplicated", mode: "copy"
     
     input:
     tuple val(sample_id), path(bam), path(bai)

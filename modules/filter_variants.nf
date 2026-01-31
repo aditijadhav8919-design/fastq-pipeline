@@ -1,6 +1,6 @@
 // Variant Filtering Module
 process FILTER_VARIANTS {
-    publishDir "${params.outdir}/filtered_variants", mode: 'copy'
+    publishDir "${params.outdir}/filtered_variants", mode: "copy"
     
     input:
     tuple val(sample_id), path(vcf)
