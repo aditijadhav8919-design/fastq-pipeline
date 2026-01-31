@@ -76,7 +76,3 @@ Results are saved in the `results/` directory with the following structure:
 - `alignment/` - BAM files
 - `variants/` - VCF files
 - `multiqc/` - Aggregated QC report
-
-## License
-
-MIT License
