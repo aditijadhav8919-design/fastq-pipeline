@@ -1,0 +1,11 @@
+name: ngs_pipeline
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - nextflow
+  - fastqc
+  - cutadapt
+  - bwa
+  - samtools
+  - bcftools
