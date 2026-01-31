@@ -5,9 +5,9 @@
  * Main entry point - imports workflow from workflows/ directory
  */
 
-include { QC_PIPELINE } from './workflows/workflow.nf'
+include { FASTQ_PIPELINE } from './workflows/workflow.nf'
 
 workflow {
     reads_ch = Channel.fromFilePairs(params.reads, checkIfExists: false)
-    QC_PIPELINE(reads_ch)
+    FASTQ_PIPELINE(reads_ch)
 }
