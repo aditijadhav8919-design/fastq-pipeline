@@ -1,3 +1,6 @@
+/*
+ * FASTQC - Quality control check on raw sequence data
+ */
 process FASTQC {
     publishDir "${params.outdir}/fastqc", mode: 'copy'
     

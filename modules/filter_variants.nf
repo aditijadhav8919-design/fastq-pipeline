@@ -1,17 +1,17 @@
-// Variant Filtering Module
-
+/*
+ * FILTER_VARIANTS - Filter variants based on quality
+ */
 process FILTER_VARIANTS {
-    
     publishDir "${params.outdir}/filtered_variants", mode: 'copy'
     
     input:
-    tuple val(sample_id), path(vcf_file)
+    tuple val(sample_id), path(vcf)
     
     output:
-    tuple val(sample_id), path("${sample_id}_filtered.vcf"), emit: filtered_vcf
+    tuple val(sample_id), path("${sample_id}.filtered.vcf")
     
     script:
     """
-    ${params.bcftools_bin} filter -i 'QUAL>20' ${vcf_file} > ${sample_id}_filtered.vcf
+    bcftools filter -i 'QUAL>20' ${vcf} > ${sample_id}.filtered.vcf
     """
 }

@@ -1,3 +1,6 @@
+/*
+ * CUTADAPT - Trim adapters and low-quality bases from reads
+ */
 process CUTADAPT {
     publishDir "${params.outdir}/trimmed", mode: 'copy'
     

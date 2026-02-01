@@ -1,17 +1,17 @@
-// Mark Duplicates Module
-
+/*
+ * MARK_DUPLICATES - Identify and mark PCR duplicates
+ */
 process MARK_DUPLICATES {
-    
-    publishDir "${params.outdir}/deduplicated", mode: 'copy'
+    publishDir "${params.outdir}/dedup", mode: 'copy'
     
     input:
-    tuple val(sample_id), path(sorted_bam)
+    tuple val(sample_id), path(bam)
     
     output:
-    tuple val(sample_id), path("${sample_id}_dedup.bam"), emit: dedup_bam
+    tuple val(sample_id), path("${sample_id}.dedup.bam")
     
     script:
     """
-    ${params.samtools_bin} markdup -r ${sorted_bam} ${sample_id}_dedup.bam
+    picard MarkDuplicates I=${bam} O=${sample_id}.dedup.bam M=${sample_id}.metrics.txt
     """
 }
