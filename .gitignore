@@ -1,0 +1,13 @@
+# Nextflow
+.nextflow/
+.nextflow.log*
+work/
+
+# Raw NGS data
+*.fastq
+*.fastq.gz
+data/
+refrence_genome/
+
+# Results
+results/
