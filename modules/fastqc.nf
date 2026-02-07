@@ -12,6 +12,6 @@ process FASTQC {
     
     script:
     """
-    fastqc -q ${reads}
+    ${params.fastqc_bin} ${fastq}
     """
 }
