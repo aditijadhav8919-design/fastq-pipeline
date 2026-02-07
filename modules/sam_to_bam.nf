@@ -12,6 +12,6 @@ process SAM_TO_BAM {
     
     script:
     """
-    samtools view -bS ${sam} > ${sample_id}.bam
+   ${params.samtools_bin} view -bS ${sam_file} > ${sample_id}.bam
     """
 }
