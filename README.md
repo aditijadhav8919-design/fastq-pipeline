@@ -10,49 +10,32 @@ git clone https://github.com/aditijadhav8919-design/fastq-pipeline.git
 cd fastq-pipeline
 ```
 
-Overview
+# Overview
+This pipeline converts raw sequencing data into high-confidence variant calls through an eight-step workflow:
 
-This pipeline processes raw sequencing data to generate high-confidence variant calls through an eight-step workflow:
+1. **Initial QC (FastQC)** – Evaluate raw read quality and detect potential issues.
+2. **Read Cleaning (Cutadapt)** – Trim adapters and remove low-quality bases.
+3. **QC Verification (FastQC)** – Confirm trimming success and improved quality.
+4. **Genome Mapping (BWA-MEM)** – Align reads to the reference genome.
+5. **File Conversion (Samtools)** – Convert SAM to space-efficient BAM.
+6. **Coordinate Sorting (Samtools)** – Sort reads by genomic coordinates.
+7. **Variant Discovery (BCFtools)** – Identify SNPs and indels.
+8. **Quality Filtering (BCFtools)** – Retain variants that meet quality thresholds.
 
-Initial QC (FastQC) – Assess raw read quality and detect potential sequencing issues.
+# Key Features
+- Fully automated from raw reads to filtered variants
+- Supports multiple samples with parallel execution
+- Quality metrics generated at each step
+- Standardized outputs (BAM, VCF)
+- Cross-platform compatibility
+- Environment management via Conda
 
-Read Cleaning (Cutadapt) – Trim adapter sequences and remove low-quality bases from read ends.
-
-QC Verification (FastQC) – Confirm trimming success and evaluate improved read quality.
-
-Genome Mapping (BWA-MEM) – Align cleaned reads to the reference genome.
-
-File Conversion (Samtools) – Convert alignment files from SAM to compressed BAM format.
-
-Coordinate Sorting (Samtools) – Sort aligned reads by genomic position.
-
-Variant Discovery (BCFtools) – Identify SNPs and indels in the mapped reads.
-
-Quality Filtering (BCFtools) – Retain variants that meet defined quality thresholds.
-
-Key Features
-
-Fully automated workflow from raw reads to filtered variants
-
-Supports multiple samples with parallel execution
-
-Generates quality metrics at every stage
-
-Produces standardized outputs (BAM and VCF files)
-
-Compatible across platforms
-
-Environment managed via Conda
-
-Purpose:
-
-Sequencing data often contains errors and technical artifacts. This pipeline:
-
-Detects and removes low-quality sequences
-
-Maps reads accurately to their genomic locations
-
-Differentiates true genetic variants from sequencing errors
+# Purpose
+This pipeline addresses common sequencing issues by:
+- Removing low-quality reads
+- Accurately mapping reads to the genome
+- Distinguishing true variants from errors
+- Delivering ready-to-analyze variant files
 
 Produces ready-to-analyze variant files for downstream research applications
 ### 3. Activate Environment
