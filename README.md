@@ -10,30 +10,51 @@ git clone https://github.com/aditijadhav8919-design/fastq-pipeline.git
 cd fastq-pipeline
 ```
 
-### 2. Create Conda Environment
-```bash
+Overview
 
-## Purpose and Objectives
+This pipeline processes raw sequencing data to generate high-confidence variant calls through an eight-step workflow:
 
-### Primary Purpose
-This pipeline automates the quality control and preprocessing of Next-Generation Sequencing (NGS) data to ensure reliable downstream genomic analysis. Raw sequencing data often contains technical artifacts, adapter sequences, and low-quality bases that must be removed before variant analysis.
+Initial QC (FastQC) – Assess raw read quality and detect potential sequencing issues.
 
-### Key Objectives
-1. **Quality Assessment**: Evaluate raw sequencing data quality using FastQC to identify issues before processing
-2. **Data Cleaning**: Remove adapter sequences and low-quality bases using Cutadapt to improve data accuracy
-3. **Read Alignment**: Map cleaned reads to a reference genome using BWA for variant detection
-4. **Variant Discovery**: Identify genetic variants (SNPs and indels) using BCFtools for biological interpretation
-5. **Automation**: Provide a reproducible, automated workflow that reduces manual errors and ensures consistency across samples
+Read Cleaning (Cutadapt) – Trim adapter sequences and remove low-quality bases from read ends.
 
-### Expected Outcomes
-- High-quality, adapter-free sequencing reads
-- Accurate genome alignments
-- Reliable variant calls for downstream analysis
-- Comprehensive quality reports at each processing stage
+QC Verification (FastQC) – Confirm trimming success and evaluate improved read quality.
 
-conda env create -f environment.yml
-```
+Genome Mapping (BWA-MEM) – Align cleaned reads to the reference genome.
 
+File Conversion (Samtools) – Convert alignment files from SAM to compressed BAM format.
+
+Coordinate Sorting (Samtools) – Sort aligned reads by genomic position.
+
+Variant Discovery (BCFtools) – Identify SNPs and indels in the mapped reads.
+
+Quality Filtering (BCFtools) – Retain variants that meet defined quality thresholds.
+
+Key Features
+
+Fully automated workflow from raw reads to filtered variants
+
+Supports multiple samples with parallel execution
+
+Generates quality metrics at every stage
+
+Produces standardized outputs (BAM and VCF files)
+
+Compatible across platforms
+
+Environment managed via Conda
+
+Purpose:
+
+Sequencing data often contains errors and technical artifacts. This pipeline:
+
+Detects and removes low-quality sequences
+
+Maps reads accurately to their genomic locations
+
+Differentiates true genetic variants from sequencing errors
+
+Produces ready-to-analyze variant files for downstream research applications
 ### 3. Activate Environment
 ```bash
 conda activate fastq-pipeline
