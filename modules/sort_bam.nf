@@ -12,6 +12,6 @@ process SORT_BAM {
     
     script:
     """
-    samtools sort ${bam} -o ${sample_id}.sorted.bam
+    ${params.samtools_bin} sort ${bam_file} -o ${sample_id}_sorted.bam
     """
 }
